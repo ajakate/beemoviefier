@@ -1,0 +1,5 @@
+{:min-bb-version "0.10.163"
+ :paths ["src"]
+ :tasks {run {:doc "Runs the main script"
+              :requires ([clojure.string :as str])
+              :task (shell (str "bb --main beemoviefier.core " (str/join " " *command-line-args*)))}}}
