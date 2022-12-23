@@ -2,11 +2,12 @@
   (:require
    [clojure.tools.cli :refer [parse-opts]]
    [clojure.string :as str]
-   [beemoviefier.runner :refer [run-ffmpeg]]))
+   [beemoviefier.runner :refer [run-ffmpeg]]
+   [beemoviefier.remote :refer [run-remote]]))
 
-;; TODO: fix defaults
+;; TODO: fix all this
 (def cli-options
-  [["-r" "--rate INCREASE_RATE" "Rate of speed increase"
+  [["-i" "--increase-rate INCREASE_RATE" "Rate of speed increase"
     :default 1.15
     :parse-fn #(Float/parseFloat %)
     :validate [#(< 0 % 5.0) "Must be a number between 0 and 5"]]
@@ -14,9 +15,15 @@
     :default "outputs/out.mp4"]
    ["-p" "--playlist PLAYLIST_FILE" "File to "
     :default "inputs/test_movie.m3u"]
+   ["-r" "--remote-host REMOTE_HOST" "Remote host for running ffmpeg" :default nil]
+   ["-p" "--remote-port REMOTE_PORT" "Remote host for running ffmpeg" :default 22]
+   ["-u" "--remote-user REMOTE_USER" "Remote host for running ffmpeg" :default nil]
+   ["-k" "--remote-private-key REMOTE_PRIVATE_KEY" "remote host foe" :default "~/.ssh/id_rsa"]
+   ["-d" "--remote-directory REMOTE_DIRECTORY" "remote host foe" :default "/tmp"]
    ["-h" "--help"]])
 
 ;; TODO: fix this
+;; TODO: remote validations
 (defn usage [options-summary]
   (->> ["This is my program. There are many like it, but this one is mine."
         ""
@@ -57,5 +64,8 @@
   (let [{:keys [action options exit-message ok?]} (validate-args args)]
     (if exit-message
       (exit (if ok? 0 1) exit-message)
-      ;; TODO: pass in as map?
-      (run-ffmpeg action (:out options) (:playlist options) (:rate options)))))
+
+      ;; TODO: pass in as map? fix this
+      (if (:remote-host options)
+        (run-remote action options)
+        (run-ffmpeg action (:out options) (:playlist options) (:increase-rate options))))))

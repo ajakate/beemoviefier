@@ -1,5 +1,6 @@
-{:min-bb-version "0.10.163"
+{:min-bb-version "0.10.168"
  :paths ["src"]
+ :pods {epiccastle/bbssh {:version "0.2.0"}}
  :tasks {run {:doc "Runs the main script"
               :requires ([clojure.string :as str])
               :task (shell (str "bb --main beemoviefier.core " (str/join " " *command-line-args*)))}}}
