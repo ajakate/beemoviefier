@@ -2,7 +2,8 @@
   (:require
    [clojure.tools.cli :refer [parse-opts]]
    [clojure.string :as str]
-   [beemoviefier.runner :refer [run-ffmpeg]]
+   [beemoviefier.helpers :refer [timestamp-out-file]]
+   [beemoviefier.runner :refer [run-local]]
    [beemoviefier.remote :refer [run-remote]]))
 
 ;; TODO: fix all this
@@ -13,13 +14,13 @@
     :validate [#(< 0 % 5.0) "Must be a number between 0 and 5"]]
    ["-o" "--out OUTPUT_FILE" "File to write output video"
     :default "outputs/out.mp4"]
-   ["-p" "--playlist PLAYLIST_FILE" "File to "
+   ["-p" "--playlist PLAYLIST_FILE" "VLC playlist file with timestamps for speed increase"
     :default "inputs/test_movie.m3u"]
-   ["-r" "--remote-host REMOTE_HOST" "Remote host for running ffmpeg" :default nil]
-   ["-p" "--remote-port REMOTE_PORT" "Remote host for running ffmpeg" :default 22]
-   ["-u" "--remote-user REMOTE_USER" "Remote host for running ffmpeg" :default nil]
-   ["-k" "--remote-private-key REMOTE_PRIVATE_KEY" "remote host foe" :default "~/.ssh/id_rsa"]
-   ["-d" "--remote-directory REMOTE_DIRECTORY" "remote host foe" :default "/tmp"]
+   ["-r" "--remote-host REMOTE_HOST" "Remote host for running ffmpeg"]
+   ["-p" "--remote-port REMOTE_PORT" "Port for remote host" :default 22]
+   ["-u" "--remote-user REMOTE_USER" "Username for remote host"]
+   ["-k" "--remote-private-key REMOTE_PRIVATE_KEY" "Private key for remote host" :default "~/.ssh/id_rsa"]
+   ["-d" "--remote-directory REMOTE_DIRECTORY" "Directory on remote host" :default "/tmp"]
    ["-h" "--help"]])
 
 ;; TODO: fix this
@@ -64,8 +65,6 @@
   (let [{:keys [action options exit-message ok?]} (validate-args args)]
     (if exit-message
       (exit (if ok? 0 1) exit-message)
-
-      ;; TODO: pass in as map? fix this
       (if (:remote-host options)
         (run-remote action options)
-        (run-ffmpeg action (:out options) (:playlist options) (:increase-rate options))))))
+        (run-local action (timestamp-out-file) options)))))
