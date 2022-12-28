@@ -18,9 +18,11 @@
        (* 100)
        (round 1)))
 
-(defn progress-msg-function [msg]
+(defn progress-msg-function [speed-factor msg]
   (fn [progress-context status]
-    (prn (str msg (display-transfer-percentage status) "% complete"))
+    (when (or (= 1 progress-context)
+              (= (rem progress-context speed-factor) 0))
+      (prn (str msg (display-transfer-percentage status) "% complete")))
     (inc progress-context)))
 
 (defn run-remote [input-file {:keys [remote-private-key remote-host remote-user remote-port remote-directory] :as options}]
@@ -37,25 +39,25 @@
       (scp/scp-to [(io/as-file input-file) (io/as-file "run.sh")]
                   remote-directory
                   {:session session
-                   :progress-context 0
-                   :progress-fn (progress-msg-function "Copying files to server... ")})
+                   :progress-context 1
+                   :progress-fn (progress-msg-function 5 "Copying files to server... ")})
 
       (println "\n\nStarting FFMPEG...\n\n")
+      (let [command (bbssh/exec session
+                                (str "sh " remote-directory "/run.sh")
+                                {:out :stream})]
+        (ffmpeg-nice-print command)
 
-      (ffmpeg-nice-print (bbssh/exec session  (str "sh " remote-directory "/run.sh")
-                                     {:out :stream}))
-
-      (println "\n\nDONE!! Copying output video back to your machine...\n\n")
-
-      (scp/scp-from "out.mp4"
-                    (timestamp-out-file)
-                    {:session session
-                     :progress-context 0
-                     :progress-fn (progress-msg-function "Downloading finished video... ")})
-
-      (println "\n\nDONE!! Cleaning up...\n\n")
-
-      ;; TODO: remote-directory better
-      (-> (bbssh/exec session (str "rm " "out.mp4 "  remote-input-filepath " " remote-directory "/run.sh") {:out :string})
-          deref
-          :out))))
+        (if (not= (:exit @command) 0)
+          (println (str "\n\n Exiting... ffmpeg exited with code " (:exit @command)))
+          (do
+            (println "\n\nDONE!! Copying output video back to your machine...\n\n")
+            (scp/scp-from "out.mp4"
+                          (timestamp-out-file)
+                          {:session session
+                           :progress-context 1
+                           :progress-fn (progress-msg-function 300 "Downloading finished video... ")})
+            (println "\n\nDONE!! Cleaning up...\n\n")
+            (-> (bbssh/exec session (str "rm " "out.mp4 "  remote-input-filepath " " remote-directory "/run.sh") {:out :string})
+                deref
+                :out)))))))

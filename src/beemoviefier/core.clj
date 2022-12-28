@@ -10,12 +10,15 @@
 (def cli-options
   [["-i" "--increase-rate INCREASE_RATE" "Rate of speed increase"
     :default 1.15
-    :parse-fn #(Float/parseFloat %)
-    :validate [#(< 0 % 5.0) "Must be a number between 0 and 5"]]
-   ["-o" "--out OUTPUT_FILE" "File to write output video"
-    :default "outputs/out.mp4"]
+    :parse-fn #(bigdec %)
+    :validate [#(< 0 % 987455.0) "Must be a number between 0 and 5"]]
+   ["-o" "--offset OFFSET" "VLC bookmark offset in seconds"
+    :default 1
+    :parse-fn #(Integer/parseInt %)]
    ["-p" "--playlist PLAYLIST_FILE" "VLC playlist file with timestamps for speed increase"
     :default "inputs/test_movie.m3u"]
+   ["-l" "--limit SPEED_LIMIT" "max rate to speed up video (may be needed for out of memory issues from ffmpeg)"
+    :parse-fn #(bigdec %)]
    ["-r" "--remote-host REMOTE_HOST" "Remote host for running ffmpeg"]
    ["-p" "--remote-port REMOTE_PORT" "Port for remote host" :default 22]
    ["-u" "--remote-user REMOTE_USER" "Username for remote host"]
