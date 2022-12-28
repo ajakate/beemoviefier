@@ -24,8 +24,6 @@ Once you're watching the video, open up the bookmarks window (command + b on mac
 
 Every time "your word" is said, or "your special thing" happens, immediately add a new bookmark. The name of the bookmarks shouldn't matter, just the timestamps.
 
-<img src="docs/chimney.png" alt="Screenshot of VLC with bookmarks" width="700"/>
-
 ![Screenshot of VLC with bookmarks](docs/chimney.png)
 
 Once the last instance of your event happens (or periodically), go to File -> Save playlist (command + s on mac) which should make a `.m3u` file.
