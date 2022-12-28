@@ -13,3 +13,6 @@
     (with-open [stream (io/reader (:out command))]
       (doseq [line (line-seq stream)]
         (println line)))))
+
+(defn file-exists [path]
+  (.exists (io/as-file path)))

@@ -25,11 +25,11 @@
       (prn (str msg (display-transfer-percentage status) "% complete")))
     (inc progress-context)))
 
-(defn run-remote [input-file {:keys [remote-private-key remote-host remote-user remote-port remote-directory] :as options}]
+(defn run-remote [{:keys [input-file remote-private-key remote-host remote-user remote-port remote-directory] :as options}]
   (shell (str "ssh-add " remote-private-key))
 
   (let [remote-input-filepath (remote-filename input-file remote-directory)
-        script-string (build-script remote-input-filepath "out.mp4" options)]
+        script-string (build-script "out.mp4" (assoc options :input-file remote-input-filepath))]
     (spit "run.sh" script-string)
 
     (let [session (bbssh/ssh remote-host {:username remote-user

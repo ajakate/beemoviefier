@@ -41,7 +41,7 @@
     {:audio (map format-decimal audios)
      :video (format-decimal inverse)}))
 
-(defn build-script [input-file output-file {:keys [playlist increase-rate limit offset]}]
+(defn build-script [output-file {:keys [input-file playlist increase-rate limit offset]}]
   (let [timestamps (->> (slurp playlist)
                         (re-seq  #"(?s)time=(\d+.\d+)}")
                         (map second))
@@ -70,8 +70,8 @@
         final (str "set -x\n\n" command-start "\"" first-segment (apply str chunkss) last-segment last-line "\" " output-file " 2>&1")]
     final))
 
-(defn run-local [input-file output-file options]
-  (let [full-script (build-script input-file output-file options)]
+(defn run-local [output-file options]
+  (let [full-script (build-script output-file options)]
     (spit "run.sh" full-script)
     (ffmpeg-nice-print (process "sh run.sh" {:out :stream}))
     (shell "rm -rf run.sh")))
