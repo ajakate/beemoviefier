@@ -2,12 +2,13 @@
 
 beemoviefier is a command line tool to help you create your own *"X, but every time Y happens it gets faster"* videos, originally inspired by this [gem](https://www.youtube.com/watch?v=W31e9meX9S4&t=177s).
 
-It's been six years since this meme was popular but I think it deserves a renaissance.
-For the uninitiated, it essentially starts with a movie, song, or video clip at normal speed
-and slowly speeds up by multiplying factor every time a certain word is said or a certain thing happens,
-often ending up unintelligible by the end.
+It's been six years since this meme was popular but I think it deserves a renaissance. For the uninitiated, it essentially starts with a movie, song, or video clip at normal speed and slowly speeds up by multiplying factor every time a certain word is said or a certain thing happens, often ending up unintelligible by the end.
 
-## Dependencies
+## Installation
+
+As long as you have babashka installed, you should be fine to run beemoviefier after cloning the repo. All the tool does is generate a long ffmpeg command which it calls. Any dependencies babashka uses should be installed on the first run.
+
+### Dependencies
 
 - [VLC](https://www.videolan.org/vlc/)
 - [babashka](https://github.com/babashka/babashka#installation)
@@ -35,10 +36,62 @@ Once the last instance of your event happens (or periodically), go to File -> Sa
 
 ### 3. Run the script
 
-A simple example
+Clone this repository and run beemoviefier in the root directory, passing in the original video and the playlist:
 
-`bb run original_video.webm -p vlc_playlist_file.m3u`
+`bb run /path/to/original_video.webm /path/to/vlc_playlist_file.m3u`
 
-will run ffmpeg and create a timestamped output mp4 file in the form `out_2022_12_24_21_43_23_238439.mp4`
+This will run ffmpeg and create a timestamped output mp4 file in the form `out_2022_12_24_21_43_23_238439.mp4`
 
 ## API
+
+Run `bb run -h` to get a list full options
+
+```
+beemoviefier Version 0.1.0
+
+Usage: bb run input_video_file playlist_file [options]
+
+Options:
+  -i, --increase-rate INCREASE_RATE            1.15           Rate of speed increase
+  -o, --offset OFFSET                          1              VLC bookmark offset in seconds
+  -l, --limit SPEED_LIMIT                                     max rate to speed up video (may be needed for out of memory issues from ffmpeg)
+  -r, --remote-host REMOTE_HOST                               Remote host for running ffmpeg
+  -p, --remote-port REMOTE_PORT                22             Port for remote host
+  -u, --remote-user REMOTE_USER                               Username for remote host
+  -k, --remote-private-key REMOTE_PRIVATE_KEY  ~/.ssh/id_rsa  Private key for remote host
+  -d, --remote-directory REMOTE_DIRECTORY      /tmp           Directory on remote host
+  -h, --help
+
+
+Please refer to https://github.com/ajakate/beemoviefier for full docs.
+```
+
+### Notes
+
+Under the hood, beemoviefier parses the playlist timestamps and creates a single ffmpeg command which it runs, using a `complex_filter` to specify all the timestamp trims and video/audio speeds.
+
+#### Video options
+
+- `-i --increase-rate` This is the factor the speed will be multiplied by following each occurence of your "event"
+- `-o --offset` The number of seconds to subtract from each of your timestamps in the playlist file. I noticed in my VLC that each bookmark I created was listed around a second after I clicked it, so the default is 1
+- `-l --limit` The max speed-up ratio allowed. If you get ridiculous, you could end up with speed multipliers in the 1000x quite fast. ffmpeg tends to crash if it's too high, so if you run into issues try setting this under 500 to start and adjust from there.
+
+#### Remote options
+
+My 2017 macbook pro is not capable of running longer videos in a reasonable amount of time, so I added an option to run ffmpeg on a remote linux server. I've tested it with a c7g.xlarge EC2 instance and seems to work better.
+
+If a `--remote-host` option is added, you will need to specify the remaining remote-related options. It will copy the files to your server, run ffmpeg there, download the output video and cleanup the files on the server. It requires ssh-key authentication. 
+
+## Development and debugging
+
+There are two tasks listed in `bb.edn`:
+- `bb run` is a wrapper for main
+- `bb test` will run the test suite (what exists of it)
+
+If you run into issues and want to debug, there is a file generated called `run.sh` in the root directory that contains the full ffmpeg command that will be called. It's deleted on cleanup after a success but if the run fails or you kill the process before ffmpeg finishes you can inspect it and run in independently. 
+
+## Additional links
+
+- [Outkast - Hey Ya! but everytime they say 'Uh' or 'Alright' it gets faster](https://www.youtube.com/watch?v=WrFJdfYTH9w)
+- [Shrek but every time he takes a STEP it gets 5% faster](https://www.youtube.com/watch?v=wLtBGGX8GIk)
+- [All Star by Smashmouth but it gets 15% faster every time he says "the"](https://www.youtube.com/watch?v=rLz1gBKk-t8)
