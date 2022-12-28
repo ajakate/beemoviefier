@@ -30,8 +30,8 @@ Once the last instance of your event happens (or periodically), go to File -> Sa
 
 **IMPORTANT NOTES:**
 - **Make sure you save your playlist before the video finishes playing** -- while testing I noticed that if I let the video finish before hitting save it wiped all my bookmarks :(
-- when you save the playlist file, make sure that your video is the only video in the playlist. beemoviefier naively grabs the first timestamps it sees via a regex match, so you could get in trouble if there is more than one video.
-- You may notice a lag between when you hit "Add" and the timestamp of the bookmark. For me it seemed to be consistently about a second... beemoviefier accounts for this lag and makes it configurable.
+- When you save the playlist file, make sure that your video is the only video in the playlist. beemoviefier naively grabs the first timestamps it sees via a regex match, so you could get in trouble if there is more than one video.
+- You may notice a lag between when you hit *Add* and the timestamp of the bookmark. For me it seemed to be consistently about a second... beemoviefier accounts for this lag and makes it configurable.
 
 ### 3. Run the script
 
