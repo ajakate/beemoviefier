@@ -1,6 +1,6 @@
 # beemoviefier
 
-beemoviefier is a command line tool to help you create your own *"X, but every time Y happens it gets faster"* videos, originally inspired by this [gem](https://www.youtube.com/watch?v=W31e9meX9S4&t=177s).
+beemoviefier is a command line tool to help you create your own *"X, but every time Y happens it gets faster"* videos, originally inspired by [this gem](https://www.youtube.com/watch?v=W31e9meX9S4), titled *"The entire bee movie but every time they say bee it gets faster"*
 
 It's been six years since this meme was popular but I think it deserves a renaissance. For the uninitiated, it essentially starts with a movie, song, or video clip at normal speed and slowly speeds up by multiplying factor every time a certain word is said or a certain thing happens, often ending up unintelligible by the end.
 
@@ -16,14 +16,14 @@ As long as you have babashka installed, you should be fine to run beemoviefier a
 
 ## Instructions
 
-### 1. Obtain video you want to convert
+### 1. Obtain the video you want to convert
 Get a local file of the video however you want, and any video format supported by ffmpeg should work fine, although so far I've only tested mp4 and webm via youtube-dl.
 
 ### 2. Open the video in VLC
 
 Once you're watching the video, open up the bookmarks window (command + b on mac)
 
-Every time "your word" is said, or "your special thing" happens, immediately add a new bookmark. The name of the bookmarks shouldn't matter, just the timestamps.
+Every time *your word* is said, or your *special event* happens to mark speeding up, immediately add a new bookmark. The name of the bookmarks shouldn't matter, just the timestamps.
 
 Once the last instance of your event happens (or periodically), go to File -> Save playlist (command + s on mac) which should make a `.m3u` file.
 
@@ -52,14 +52,14 @@ beemoviefier Version 0.1.0
 Usage: bb run input_video_file playlist_file [options]
 
 Options:
-  -i, --increase-rate INCREASE_RATE            1.15           Rate of speed increase
-  -o, --offset OFFSET                          1              VLC bookmark offset in seconds
-  -l, --limit SPEED_LIMIT                                     max rate to speed up video (may be needed for out of memory issues from ffmpeg)
-  -r, --remote-host REMOTE_HOST                               Remote host for running ffmpeg
-  -p, --remote-port REMOTE_PORT                22             Port for remote host
-  -u, --remote-user REMOTE_USER                               Username for remote host
-  -k, --remote-private-key REMOTE_PRIVATE_KEY  ~/.ssh/id_rsa  Private key for remote host
-  -d, --remote-directory REMOTE_DIRECTORY      /tmp           Directory on remote host
+  -i, --increase-rate       1.15           Rate of speed increase
+  -o, --offset              1              VLC bookmark offset in seconds
+  -l, --limit                              max rate to speed up video (may be needed for out of memory issues from ffmpeg)
+  -r, --remote-host                        Remote host for running ffmpeg
+  -p, --remote-port         22             Port for remote host
+  -u, --remote-user                        Username for remote host
+  -k, --remote-private-key  ~/.ssh/id_rsa  Private key for remote host
+  -d, --remote-directory    /tmp           Directory on remote host
   -h, --help
 
 

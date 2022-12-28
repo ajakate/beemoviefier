@@ -7,20 +7,20 @@
    [beemoviefier.remote :refer [run-remote]]))
 
 (def cli-options
-  [["-i" "--increase-rate INCREASE_RATE" "Rate of speed increase"
+  [["-i" "--increase-rate" "Rate of speed increase"
     :default 1.15
     :parse-fn #(bigdec %)
     :validate [#(< 0 % 5.0) "Must be a number between 0 and 5"]]
-   ["-o" "--offset OFFSET" "VLC bookmark offset in seconds"
+   ["-o" "--offset" "VLC bookmark offset in seconds"
     :default 1
     :parse-fn #(Integer/parseInt %)]
-   ["-l" "--limit SPEED_LIMIT" "max rate to speed up video (may be needed for out of memory issues from ffmpeg)"
+   ["-l" "--limit" "max rate to speed up video (may be needed for out of memory issues from ffmpeg)"
     :parse-fn #(bigdec %)]
-   ["-r" "--remote-host REMOTE_HOST" "Remote host for running ffmpeg"]
-   ["-p" "--remote-port REMOTE_PORT" "Port for remote host" :default 22]
-   ["-u" "--remote-user REMOTE_USER" "Username for remote host"]
-   ["-k" "--remote-private-key REMOTE_PRIVATE_KEY" "Private key for remote host" :default "~/.ssh/id_rsa"]
-   ["-d" "--remote-directory REMOTE_DIRECTORY" "Directory on remote host" :default "/tmp"]
+   ["-r" "--remote-host" "Remote host for running ffmpeg"]
+   ["-p" "--remote-port" "Port for remote host" :default 22]
+   ["-u" "--remote-user" "Username for remote host"]
+   ["-k" "--remote-private-key" "Private key for remote host" :default "~/.ssh/id_rsa"]
+   ["-d" "--remote-directory" "Directory on remote host" :default "/tmp"]
    ["-h" "--help"]])
 
 (defn usage [options-summary]
