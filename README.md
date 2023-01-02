@@ -16,15 +16,19 @@ As long as you have babashka installed, you should be fine to run beemoviefier a
 
 ## Quickstart
 
-[chimney.webm](https://user-images.githubusercontent.com/5639575/210269642-cfb3f39a-2343-44f6-b038-891dccaa6c5a.webm)
+Make sure you have ffmpeg and babashka installed and clone this repo.
+
+Download the video here of [this famous scene](https://user-images.githubusercontent.com/5639575/210269642-cfb3f39a-2343-44f6-b038-891dccaa6c5a.webm) from the film Marry Poppins. We'll be converting it to get faster every time he says "luck."
+
+Save the video as `original.webm` in the beemoviefier root.
+
+Run `bb run original.webm samples/chimney-sample.m3u -i 1.15`
+
+Your converted video should look like this:
+[chimney_finished.mp4](https://user-images.githubusercontent.com/5639575/210269841-05c9551e-fbf3-4ee0-8675-1f2183d4106b.mp4)
 
 
-
-[chimney2.mp4](https://user-images.githubusercontent.com/5639575/210269841-05c9551e-fbf3-4ee0-8675-1f2183d4106b.mp4)
-
-
-
-## Instructions
+## Detailed Instructions
 
 ### 1. Obtain the video you want to convert
 Get a local file of the video however you want, and any video format supported by ffmpeg should work fine, although so far I've only tested mp4 and webm via youtube-dl.
