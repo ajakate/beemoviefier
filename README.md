@@ -14,6 +14,16 @@ As long as you have babashka installed, you should be fine to run beemoviefier a
 - [babashka](https://github.com/babashka/babashka#installation)
 - [ffmpeg](https://ffmpeg.org/download.html)
 
+## Quickstart
+
+[chimney.webm](https://user-images.githubusercontent.com/5639575/210269642-cfb3f39a-2343-44f6-b038-891dccaa6c5a.webm)
+
+
+
+[chimney2.mp4](https://user-images.githubusercontent.com/5639575/210269841-05c9551e-fbf3-4ee0-8675-1f2183d4106b.mp4)
+
+
+
 ## Instructions
 
 ### 1. Obtain the video you want to convert
