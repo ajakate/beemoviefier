@@ -88,7 +88,7 @@ There are two tasks listed in `bb.edn`:
 - `bb run` is a wrapper for main
 - `bb test` will run the test suite (what exists of it)
 
-If you run into issues and want to debug, there is a file generated called `run.sh` in the root directory that contains the full ffmpeg command that will be called. It's deleted on cleanup after a success but if the run fails or you kill the process before ffmpeg finishes you can inspect it and run in independently. 
+If you run into issues and want to debug, there is a file generated called `run.sh` in the root directory that contains the full ffmpeg command that will be called. It's deleted on cleanup after a success but if the run fails or you kill the process before ffmpeg finishes you can inspect it and run it independently.
 
 ## Additional links
 
