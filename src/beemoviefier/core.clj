@@ -4,23 +4,24 @@
    [clojure.string :as str]
    [beemoviefier.helpers :refer [timestamp-out-file file-exists]]
    [beemoviefier.runner :refer [run-local]]
-   [beemoviefier.remote :refer [run-remote]]))
+   [beemoviefier.remote :refer [run-remote]]
+   [babashka.fs :as fs]))
 
 (def cli-options
-  [["-i" "--increase-rate" "Rate of speed increase"
+  [["-i" "--increase-rate RATE" "Rate of speed increase"
     :default 1.15
     :parse-fn #(bigdec %)
     :validate [#(< 0 % 5.0) "Must be a number between 0 and 5"]]
-   ["-o" "--offset" "VLC bookmark offset in seconds"
+   ["-o" "--offset SECONDS" "VLC bookmark offset in seconds"
     :default 1
     :parse-fn #(Integer/parseInt %)]
-   ["-l" "--limit" "max rate to speed up video (may be needed for out of memory issues from ffmpeg)"
+   ["-l" "--limit RATE_LIMIT" "max rate to speed up video (may be needed for out of memory issues from ffmpeg)"
     :parse-fn #(bigdec %)]
-   ["-r" "--remote-host" "Remote host for running ffmpeg"]
-   ["-p" "--remote-port" "Port for remote host" :default 22]
-   ["-u" "--remote-user" "Username for remote host"]
-   ["-k" "--remote-private-key" "Private key for remote host" :default "~/.ssh/id_rsa"]
-   ["-d" "--remote-directory" "Directory on remote host" :default "/tmp"]
+   ["-r" "--remote-host HOSTNAME" "Remote host for running ffmpeg"]
+   ["-p" "--remote-port PORT" "Port for remote host" :default 22]
+   ["-u" "--remote-user USERNAME" "Username for remote host"]
+   ["-k" "--remote-private-key PRIVATE_KEY" "Private key for remote host" :default "~/.ssh/id_rsa"]
+   ["-d" "--remote-directory DIRECTORY" "Directory on remote host" :default "/tmp"]
    ["-h" "--help"]])
 
 (defn usage [options-summary]
@@ -63,6 +64,7 @@
 
 (defn -main [& args]
   (let [{:keys [options exit-message ok?]} (validate-args args)]
+    (dorun (->> (fs/glob "." "*babashka-pod-*.port" {:hidden true}) (map str) (map fs/delete-on-exit)))
     (if exit-message
       (exit (if ok? 0 1) exit-message)
       (if (:remote-host options)

@@ -22,7 +22,7 @@ Download the video here of [this famous scene](https://user-images.githubusercon
 
 Save the video as `original.webm` in the beemoviefier root.
 
-Run `bb run original.webm samples/chimney-sample.m3u -i 1.15`
+Run `bb run original.webm samples/chimney-sample.m3u -i 1.15`. It should finish quite fast.
 
 Your converted video should look like this:
 
@@ -67,14 +67,14 @@ beemoviefier Version 0.1.0
 Usage: bb run input_video_file playlist_file [options]
 
 Options:
-  -i, --increase-rate       1.15           Rate of speed increase
-  -o, --offset              1              VLC bookmark offset in seconds
-  -l, --limit                              max rate to speed up video (may be needed for out of memory issues from ffmpeg)
-  -r, --remote-host                        Remote host for running ffmpeg
-  -p, --remote-port         22             Port for remote host
-  -u, --remote-user                        Username for remote host
-  -k, --remote-private-key  ~/.ssh/id_rsa  Private key for remote host
-  -d, --remote-directory    /tmp           Directory on remote host
+  -i, --increase-rate RATE              1.15           Rate of speed increase
+  -o, --offset SECONDS                  1              VLC bookmark offset in seconds
+  -l, --limit RATE_LIMIT                               max rate to speed up video (may be needed for out of memory issues from ffmpeg)
+  -r, --remote-host HOSTNAME                           Remote host for running ffmpeg
+  -p, --remote-port PORT                22             Port for remote host
+  -u, --remote-user USERNAME                           Username for remote host
+  -k, --remote-private-key PRIVATE_KEY  ~/.ssh/id_rsa  Private key for remote host
+  -d, --remote-directory DIRECTORY      /tmp           Directory on remote host
   -h, --help
 
 
