@@ -12,7 +12,7 @@ As long as you have babashka and ffmpeg installed, you should be fine to run bee
 
 - [VLC](https://www.videolan.org/vlc/)
 - [babashka](https://github.com/babashka/babashka#installation)
-- [ffmpeg](https://ffmpeg.org/download.html) -- [version 5+ required](https://www.linuxcapable.com/how-to-install-ffmpeg-5-on-ubuntu-22-04-lts/)
+- [ffmpeg](https://ffmpeg.org/download.html) -- **[version 5+ required](https://www.linuxcapable.com/how-to-install-ffmpeg-5-on-ubuntu-22-04-lts/)**
 
 ## Quickstart
 
@@ -56,6 +56,8 @@ Run beemoviefier in the root directory of this repo, passing in the original vid
 `bb run /path/to/original_video.webm /path/to/vlc_playlist_file.m3u`
 
 This will run ffmpeg and create a timestamped output mp4 file in the form `out_2022_12_24_21_43_23_238439.mp4`
+
+**NOTE:** Make sure you're running ffmpeg v5+. Running version 4 will cause some consistent out of memory issues even with small files and rates.
 
 ## API
 
