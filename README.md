@@ -6,7 +6,7 @@ It's been six years since this meme was popular but I think it deserves a renais
 
 ## Installation
 
-As long as you have babashka installed, you should be fine to run beemoviefier after cloning the repo. All the tool does is generate a long ffmpeg command which it calls. Any dependencies babashka uses should be installed on the first run.
+As long as you have babashka and ffmpeg installed, you should be fine to run beemoviefier after cloning the repo. All the tool does is generate a long ffmpeg command which it calls. Any dependencies babashka uses should be installed on the first run.
 
 ### Dependencies
 
@@ -18,13 +18,13 @@ As long as you have babashka installed, you should be fine to run beemoviefier a
 
 Make sure you have ffmpeg and babashka installed and clone this repo.
 
-Download the video here of [this famous scene](https://user-images.githubusercontent.com/5639575/210269642-cfb3f39a-2343-44f6-b038-891dccaa6c5a.webm) from the film Marry Poppins. We'll be converting it to get faster every time he says "luck."
+Download this video of [Chim Chim Cher-ee](https://user-images.githubusercontent.com/5639575/210269642-cfb3f39a-2343-44f6-b038-891dccaa6c5a.webm) from the 1964 classic film Marry Poppins. We'll be editing it to get faster every time he says "luck."
 
-Save the video as `original.webm` in the beemoviefier root.
+Rename the video as `original.webm` in the beemoviefier root.
 
 Run `bb run original.webm samples/chimney-sample.m3u -i 1.15`. It should finish quite fast.
 
-Your converted video should look like this:
+Your converted video should end up like this:
 
 [chimney_finished.mp4](https://user-images.githubusercontent.com/5639575/210269841-05c9551e-fbf3-4ee0-8675-1f2183d4106b.mp4)
 
@@ -32,7 +32,7 @@ Your converted video should look like this:
 ## Detailed Instructions
 
 ### 1. Obtain the video you want to convert
-Get a local file of the video however you want, and any video format supported by ffmpeg should work fine, although so far I've only tested mp4 and webm via youtube-dl.
+Get a local file of the video however you want, and any video format supported by ffmpeg should work fine, although so far I've only tested mp4 and webm files I obtained via [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
 ### 2. Open the video in VLC
 
@@ -51,7 +51,7 @@ Once the last instance of your event happens (or periodically), go to File -> Sa
 
 ### 3. Run the script
 
-Clone this repository and run beemoviefier in the root directory, passing in the original video and the playlist:
+Run beemoviefier in the root directory of this repo, passing in the original video and the playlist:
 
 `bb run /path/to/original_video.webm /path/to/vlc_playlist_file.m3u`
 
