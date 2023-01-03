@@ -12,7 +12,7 @@ As long as you have babashka and ffmpeg installed, you should be fine to run bee
 
 - [VLC](https://www.videolan.org/vlc/)
 - [babashka](https://github.com/babashka/babashka#installation)
-- [ffmpeg](https://ffmpeg.org/download.html)
+- [ffmpeg](https://ffmpeg.org/download.html) -- [version 5+ required](https://www.linuxcapable.com/how-to-install-ffmpeg-5-on-ubuntu-22-04-lts/)
 
 ## Quickstart
 
@@ -104,6 +104,8 @@ There are two tasks listed in `bb.edn`:
 - `bb test` will run the test suite (what exists of it)
 
 If you run into issues and want to debug, there is a file generated called `run.sh` in the root directory that contains the full ffmpeg command that will be called. It's deleted on cleanup after a success but if the run fails or you kill the process before ffmpeg finishes you can inspect it and run it independently.
+
+If you're running the command on a remote server, none of the files are deleted on a non-zero exit code from ffmpeg. If you're using the default directory, you can simply ssh on the box and run `sh /tmp/run.sh` to debug the program.
 
 ## Additional links
 
